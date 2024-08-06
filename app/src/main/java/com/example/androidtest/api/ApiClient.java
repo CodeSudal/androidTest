@@ -16,10 +16,6 @@ public class ApiClient {
         if (retrofit == null) {
             OkHttpClient client = new OkHttpClient.Builder().build();
 
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)

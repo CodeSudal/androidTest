@@ -3,7 +3,7 @@ package com.example.androidtest.model;
 public class AppUser {
     private String userId;
     private String secNum;
-    private String name;
+    private String nam;
 
     // Getters and Setters
     public String getUserId() {
@@ -22,12 +22,12 @@ public class AppUser {
         this.secNum = secNum;
     }
 
-    public String getName() {
-        return name;
+    public String getNam() {
+        return nam;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNam(String nam) {
+        this.nam = nam;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class AppUser {
         return "AppUser{" +
                 "userId='" + userId + '\'' +
                 ", secNum='" + secNum + '\'' +
-                ", name='" + name + '\'' +
+                ", nam='" + nam + '\'' +
                 '}';
     }
 }

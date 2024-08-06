@@ -1,6 +1,7 @@
 package com.example.androidtest.api;
 
 import com.example.androidtest.model.AppUser;
+import com.example.androidtest.model.MyResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -13,5 +14,5 @@ public interface ApiService {
      */
 
     @POST("/api/users/register")
-    Call<String> registerUser(@Body AppUser appUser);
+    Call<MyResponse> registerUser(@Body AppUser appUser);
 }

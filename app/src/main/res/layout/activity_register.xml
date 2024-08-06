@@ -15,10 +15,11 @@
             android:id="@+id/secNumEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Security Number" />
+            android:hint="Security Number"
+            android:inputType="textPassword" />
 
     <EditText
-            android:id="@+id/nameEditText"
+            android:id="@+id/namEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name" />
@@ -28,5 +29,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Register" />
+
+    <Button
+            android:id="@+id/buttonBackToLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back to Login" />
 
 </LinearLayout>
