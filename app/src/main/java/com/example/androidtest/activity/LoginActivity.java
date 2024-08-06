@@ -21,45 +21,43 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import java.util.Map;
 
-public class RegisterActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
-    private EditText userIdEditText, secNumEditText, namEditText;
-    private Button registerButton, buttonBackToLogin;
+    private EditText loginUserIdEditText, loginPasswordEditText;
+    private Button buttonLogin, buttonGoToRegister;
     private ApiService apiService;
 
-    private static final String TAG = "RegisterActivity";
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_login);
 
-        userIdEditText = findViewById(R.id.userIdEditText);
-        secNumEditText = findViewById(R.id.secNumEditText);
-        namEditText = findViewById(R.id.namEditText);
-        registerButton = findViewById(R.id.registerButton);
-        buttonBackToLogin = findViewById(R.id.buttonBackToLogin);
+        loginUserIdEditText = findViewById(R.id.loginUserIdEditText);
+        loginPasswordEditText = findViewById(R.id.loginPasswordEditText);
+        buttonLogin = findViewById(R.id.buttonLogin);
+        buttonGoToRegister = findViewById(R.id.buttonGoToRegister);
 
         apiService = ApiClient.getClient().create(ApiService.class);
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new EncryptAndRegisterTask().execute();
+                new EncryptAndLoginTask().execute();
             }
         });
 
-        buttonBackToLogin.setOnClickListener(new View.OnClickListener() {
+        buttonGoToRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
     }
 
-    private class EncryptAndRegisterTask extends AsyncTask<Void, Void, PublicKey> {
+    private class EncryptAndLoginTask extends AsyncTask<Void, Void, PublicKey> {
 
         @Override
         protected PublicKey doInBackground(Void... voids) {
@@ -74,53 +72,54 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(PublicKey publicKey) {
             if (publicKey != null) {
-                registerUser(publicKey);
+                loginUser(publicKey);
             } else {
-                Toast.makeText(RegisterActivity.this, "Failed to get public key from server", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Failed to get public key from server", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void registerUser(PublicKey publicKey) {
+    private void loginUser(PublicKey publicKey) {
         try {
             // 비밀번호를 암호화합니다.
-            String secNum = secNumEditText.getText().toString().trim();
+            String secNum = loginPasswordEditText.getText().toString().trim();
             byte[] encryptedSecNum = RSAUtil.encrypt(secNum, publicKey);
             String encryptedSecNumString = Base64.encodeToString(encryptedSecNum, Base64.NO_WRAP);
 
             // AppUser 객체 생성
             AppUser appUser = new AppUser();
-            appUser.setUserId(userIdEditText.getText().toString().trim());
+            appUser.setUserId(loginUserIdEditText.getText().toString().trim());
             appUser.setSecNum(encryptedSecNumString);
-            appUser.setNam(namEditText.getText().toString().trim());
 
             // 서버로 전송
-            apiService.registerUser(appUser).enqueue(new Callback<Map<String, Object>>() {
+            apiService.loginUser(appUser).enqueue(new Callback<Map<String, Object>>() {
                 @Override
                 public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                     if (response.isSuccessful()) {
                         Map<String, Object> result = response.body();
-                        if (result != null && "User registered successfully".equals(result.get("message"))) {
-                            Log.d(TAG, "Registration successful");
-                            Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                            // 로그인 페이지로 이동
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        if (result != null && "Login successful".equals(result.get("message"))) {
+                            Log.d(TAG, "Login successful");
+                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            // 메인 페이지로 이동
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("userId", result.get("userId").toString());
+                            intent.putExtra("nam", result.get("nam").toString());
                             startActivity(intent);
                             finish();
                         } else {
-                            Log.e(TAG, "Registration failed");
-                            Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "Login failed");
+                            Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Log.e(TAG, "Registration failed: " + response.message());
-                        Toast.makeText(RegisterActivity.this, "Registration failed: " + response.message(), Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "Login failed: " + response.message());
+                        Toast.makeText(LoginActivity.this, "Login failed: " + response.message(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Map<String, Object>> call, Throwable t) {
                     Log.e(TAG, "Error: " + t.getMessage(), t);
-                    Toast.makeText(RegisterActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {

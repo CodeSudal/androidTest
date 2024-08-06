@@ -5,29 +5,29 @@
               android:orientation="vertical"
               android:padding="16dp">
 
-    <TextView
-            android:id="@+id/textWelcome"
+    <EditText
+            android:id="@+id/loginUserIdEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="환영합니다!"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:layout_marginTop="20dp" />
+            android:hint="User ID" />
 
-    <TextView
-            android:id="@+id/textUserInfo"
+    <EditText
+            android:id="@+id/loginPasswordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="User Info"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:layout_marginTop="10dp" />
+            android:hint="Password"
+            android:inputType="textPassword" />
 
     <Button
-            android:id="@+id/buttonLogout"
+            android:id="@+id/buttonLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logout"
-            android:layout_marginTop="20dp" />
+            android:text="Login" />
+
+    <Button
+            android:id="@+id/buttonGoToRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go to Register" />
 
 </LinearLayout>
