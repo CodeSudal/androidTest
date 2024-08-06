@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              tools:context=".ui.MainActivity">
+              android:padding="16dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+    <Button
+            android:id="@+id/buttonGoToRegister"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp" />
+            android:layout_height="wrap_content"
+            android:text="Go to Register" />
+
+    <!-- 기존 레이아웃 요소들 (필요한 경우 추가) -->
 
 </LinearLayout>
