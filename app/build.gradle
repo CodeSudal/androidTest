@@ -44,4 +44,5 @@ dependencies {
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+    implementation 'com.airbnb.android:lottie:5.0.2'
 }

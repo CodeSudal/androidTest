@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
 import com.example.androidtest.R;
 import com.example.androidtest.api.ApiClient;
 import com.example.androidtest.api.ApiService;
@@ -108,11 +109,11 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         } else {
                             Log.e(TAG, "Login failed");
-                            Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                            showAlertDialog("아이디 또는 비밀번호가 틀렸습니다.");
                         }
                     } else {
                         Log.e(TAG, "Login failed: " + response.message());
-                        Toast.makeText(LoginActivity.this, "Login failed: " + response.message(), Toast.LENGTH_SHORT).show();
+                        showAlertDialog("아이디 또는 비밀번호가 틀렸습니다.");
                     }
                 }
 
@@ -126,4 +127,13 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private void showAlertDialog(String message) {
+        new AlertDialog.Builder(LoginActivity.this)
+                .setTitle("로그인 오류")
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
+
 }
