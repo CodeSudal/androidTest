@@ -12,7 +12,7 @@ import java.util.Map;
 
 public interface ApiService {
 
-    @POST("/api/users/register")
+    @POST("/api/users/register.do")
     Call<Map<String, Object>> registerUser(@Body AppUser appUser);
 
     @POST("/api/users/login")
